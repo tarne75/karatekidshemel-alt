@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Background -->
+  <rect width="100" height="100" rx="15" fill="#0A0A0A"/>
+
+  <!-- Body -->
+  <rect x="27" y="51" width="39" height="18" rx="9" fill="#C0141C"/>
+
+  <!-- Head -->
+  <ellipse cx="22" cy="60" rx="7" ry="7" fill="#C0141C"/>
+  <circle cx="19" cy="58" r="1.5" fill="#0A0A0A"/>
+
+  <!-- Tail: sweeps up-right then curls back left to stinger -->
+  <path d="M67,60 C78,50 85,32 82,18 C86,10 78,6 72,10 C66,7 63,4 68,3"
+        stroke="#C0141C" stroke-width="7" fill="none"
+        stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="68" cy="3" r="3" fill="#C0141C"/>
+
+  <!-- Left claw arm -->
+  <path d="M16,59 C10,56 6,52 5,50" stroke="#C0141C" stroke-width="4.5"
+        fill="none" stroke-linecap="round"/>
+  <!-- Upper claw -->
+  <path d="M5,50 C2,46 1,42 4,40" stroke="#C0141C" stroke-width="3.5"
+        fill="none" stroke-linecap="round"/>
+  <!-- Lower claw -->
+  <path d="M5,50 C2,53 1,57 4,59" stroke="#C0141C" stroke-width="3.5"
+        fill="none" stroke-linecap="round"/>
+
+  <!-- Legs — upper 4 -->
+  <line x1="35" y1="51" x2="31" y2="40" stroke="#C0141C" stroke-width="3" stroke-linecap="round"/>
+  <line x1="44" y1="51" x2="40" y2="38" stroke="#C0141C" stroke-width="3" stroke-linecap="round"/>
+  <line x1="53" y1="51" x2="50" y2="39" stroke="#C0141C" stroke-width="3" stroke-linecap="round"/>
+  <line x1="61" y1="52" x2="59" y2="41" stroke="#C0141C" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Legs — lower 4 -->
+  <line x1="35" y1="69" x2="31" y2="80" stroke="#C0141C" stroke-width="3" stroke-linecap="round"/>
+  <line x1="44" y1="69" x2="41" y2="82" stroke="#C0141C" stroke-width="3" stroke-linecap="round"/>
+  <line x1="53" y1="69" x2="51" y2="81" stroke="#C0141C" stroke-width="3" stroke-linecap="round"/>
+  <line x1="61" y1="68" x2="59" y2="79" stroke="#C0141C" stroke-width="3" stroke-linecap="round"/>
+</svg>
