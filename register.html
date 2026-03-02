@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register — Sasori Karate Dojo</title>
+  <meta name="description" content="Register your interest in Sasori Karate Dojo classes and join our mailing list for news and updates.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="assets/images/logo.jpg" alt="Sasori Karate Dojo logo">
+      <span>Karate Kids Hemel<em>Sasori Karate Dojo</em></span>
+    </a>
+    <nav aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="history.html">History</a></li>
+        <li><a href="instructors.html">Instructors</a></li>
+        <li><a href="training.html">Training</a></li>
+        <li><a href="diary.html">Diary</a></li>
+        <li><a href="benefits.html">Benefits</a></li>
+        <li><a href="news.html">News</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="nav-cta"><a href="register.html" class="active">Register</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="page-header">
+  <div class="container">
+    <span class="section-label">Join Our Mailing List</span>
+    <h1>Register</h1>
+    <p>Sign up to receive news, updates, and information from Sasori Karate Dojo.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container" style="max-width:680px; margin-inline:auto;">
+
+    <div class="form-card">
+
+      <div id="register-success" class="form-success">
+        ✓ &nbsp;You're signed up! We'll be in touch with news and updates.
+      </div>
+
+      <h2 style="margin-bottom:.5rem;">Stay in Touch</h2>
+      <p style="color:var(--gray); margin-bottom:2rem;">Fill in the short form below and we'll add you to our mailing list. We'll keep you updated with class news, upcoming events, grading dates, and club announcements. We won't spam you — promise.</p>
+
+      <form id="register-form" action="https://formspree.io/f/xwvndkow" method="POST" novalidate>
+        <!-- Tag this submission type -->
+        <input type="hidden" name="_subject" value="New mailing list registration — Karate Kids Hemel">
+        <input type="hidden" name="form_type" value="mailing_list">
+
+        <div class="form-group">
+          <label for="reg-name">Your Name</label>
+          <input type="text" id="reg-name" name="name" required placeholder="e.g. Jane Smith">
+        </div>
+        <div class="form-group">
+          <label for="reg-email">Email Address</label>
+          <input type="email" id="reg-email" name="email" required placeholder="jane@example.com">
+        </div>
+        <div class="form-group">
+          <label for="reg-interest">I'm interested in…</label>
+          <select id="reg-interest" name="interest">
+            <option value="">— please select —</option>
+            <option value="children_beginner">Children's classes — beginner</option>
+            <option value="children_advanced">Children's classes — returning/advanced</option>
+            <option value="adult">Adult classes</option>
+            <option value="family">Family (adult + children)</option>
+            <option value="general">General news &amp; updates only</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="reg-notes">Anything else? <span style="font-size:.8em; text-transform:none; letter-spacing:0; color:var(--gray);">(optional)</span></label>
+          <textarea id="reg-notes" name="notes" placeholder="Ages of children, questions, etc." style="min-height:90px;"></textarea>
+        </div>
+        <!-- Honeypot -->
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+        <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Sign Me Up &rarr;</button>
+      </form>
+
+      <p style="margin-top:1.2rem; font-size:.85rem; color:var(--gray); text-align:center;">
+        Want to ask a question first? <a href="contact.html">Send us a message</a> or just turn up to a class — a trial session is just £5.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="margin-bottom:.5rem;">
+          <img src="assets/images/logo.jpg" alt="Sasori Karate Dojo" style="height:40px;">
+          <span>Karate Kids Hemel<em>Sasori Karate Dojo</em></span>
+        </a>
+        <p>Goju Ryu karate in Hemel Hempstead since 1980. Children aged 5 and up, all levels welcome.</p>
+      </div>
+      <div>
+        <p class="footer-heading">Quick Links</p>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="history.html">History</a></li>
+          <li><a href="instructors.html">Instructors</a></li>
+          <li><a href="training.html">Training</a></li>
+          <li><a href="diary.html">Diary</a></li>
+          <li><a href="benefits.html">Benefits</a></li>
+          <li><a href="news.html">News</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="register.html">Register</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">Training Locations</p>
+        <div class="footer-schedule-item">
+          <strong>Monday — Lime Walk Primary School</strong>
+          Lime Walk, Hemel Hempstead HP3 9LN<br>
+          Beginners 6–7pm · Advanced 7–8pm · Adults 8–9:30pm
+        </div>
+        <div class="footer-schedule-item">
+          <strong>Thursday — Apsley Community Centre</strong>
+          London Road, Hemel Hempstead HP3 9SB<br>
+          Beginners 6–7pm · Advanced 7–8pm · Adults 8–9:30pm
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Sasori Karate Dojo. All rights reserved.</span>
+      <span>Hemel Hempstead, Hertfordshire</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+<script>setupFormspree('register-form', 'register-success');</script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — Sasori Karate Dojo</title>
+  <meta name="description" content="Get in touch with Sasori Karate Dojo in Hemel Hempstead. Send us a message, ask about classes, or find our locations.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="assets/images/logo.jpg" alt="Sasori Karate Dojo logo">
+      <span>Karate Kids Hemel<em>Sasori Karate Dojo</em></span>
+    </a>
+    <nav aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="history.html">History</a></li>
+        <li><a href="instructors.html">Instructors</a></li>
+        <li><a href="training.html">Training</a></li>
+        <li><a href="diary.html">Diary</a></li>
+        <li><a href="benefits.html">Benefits</a></li>
+        <li><a href="news.html">News</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+        <li class="nav-cta"><a href="register.html">Register</a></li>
+      </ul>
+    </nav>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="page-header">
+  <div class="container">
+    <span class="section-label">Get in Touch</span>
+    <h1>Contact Us</h1>
+    <p>Questions about classes? We'd love to hear from you.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="card-grid card-grid-2" style="align-items:start; gap:3rem;">
+
+      <!-- Info -->
+      <div>
+        <span class="section-label">Training Locations</span>
+        <h2 style="margin-bottom:1.5rem;">Where to Find Us</h2>
+
+        <div class="contact-info-block">
+          <h3>Monday — Lime Walk Primary School</h3>
+          <div class="contact-info-item">
+            <span class="icon">📍</span>
+            <span>Lime Walk, Hemel Hempstead, Herts HP3 9LN<br><small style="color:var(--gray);">Limited parking in school grounds</small></span>
+          </div>
+          <div class="contact-info-item">
+            <span class="icon">🕐</span>
+            <span>Beginners 6–7pm &nbsp;·&nbsp; Advanced 7–8pm &nbsp;·&nbsp; Adults 8–9:30pm</span>
+          </div>
+        </div>
+
+        <div class="contact-info-block">
+          <h3>Thursday — Apsley Community Centre</h3>
+          <div class="contact-info-item">
+            <span class="icon">📍</span>
+            <span>London Road, Hemel Hempstead, Herts HP3 9SB<br><small style="color:var(--gray);">Parking available in Durrants Hill Rd</small></span>
+          </div>
+          <div class="contact-info-item">
+            <span class="icon">🕐</span>
+            <span>Beginners 6–7pm &nbsp;·&nbsp; Advanced 7–8pm &nbsp;·&nbsp; Adults 8–9:30pm</span>
+          </div>
+        </div>
+
+        <div style="padding:1.2rem 1.4rem; background:var(--light); border-radius:var(--radius); margin-top:1rem;">
+          <strong>Trial sessions are £5.</strong> You're welcome to simply turn up to a class — just come along and introduce yourself! Alternatively, fill in the form and we'll get back to you.
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="form-card">
+        <h2 style="margin-bottom:1.5rem;">Send a Message</h2>
+
+        <div id="contact-success" class="form-success">
+          ✓ &nbsp;Thank you for your message — we'll be in touch shortly!
+        </div>
+
+        <form id="contact-form" action="https://formspree.io/f/xwvndkow" method="POST" novalidate>
+          <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" name="name" required placeholder="e.g. Jane Smith">
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required placeholder="jane@example.com">
+          </div>
+          <div class="form-group">
+            <label for="phone">Telephone <span style="font-size:.8em; text-transform:none; letter-spacing:0; color:var(--gray);">(optional)</span></label>
+            <input type="tel" id="phone" name="phone" placeholder="+44 7700 000000">
+          </div>
+          <div class="form-group">
+            <label for="message">How Can We Help?</label>
+            <textarea id="message" name="message" required placeholder="Tell us about yourself or your child, and any questions you have..."></textarea>
+          </div>
+          <!-- Honeypot -->
+          <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+          <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Send Message</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo" style="margin-bottom:.5rem;">
+          <img src="assets/images/logo.jpg" alt="Sasori Karate Dojo" style="height:40px;">
+          <span>Karate Kids Hemel<em>Sasori Karate Dojo</em></span>
+        </a>
+        <p>Goju Ryu karate in Hemel Hempstead since 1980. Children aged 5 and up, all levels welcome.</p>
+      </div>
+      <div>
+        <p class="footer-heading">Quick Links</p>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="history.html">History</a></li>
+          <li><a href="instructors.html">Instructors</a></li>
+          <li><a href="training.html">Training</a></li>
+          <li><a href="diary.html">Diary</a></li>
+          <li><a href="benefits.html">Benefits</a></li>
+          <li><a href="news.html">News</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="register.html">Register</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">Training Locations</p>
+        <div class="footer-schedule-item">
+          <strong>Monday — Lime Walk Primary School</strong>
+          Lime Walk, Hemel Hempstead HP3 9LN<br>
+          Beginners 6–7pm · Advanced 7–8pm · Adults 8–9:30pm
+        </div>
+        <div class="footer-schedule-item">
+          <strong>Thursday — Apsley Community Centre</strong>
+          London Road, Hemel Hempstead HP3 9SB<br>
+          Beginners 6–7pm · Advanced 7–8pm · Adults 8–9:30pm
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Sasori Karate Dojo. All rights reserved.</span>
+      <span>Hemel Hempstead, Hertfordshire</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+<script>setupFormspree('contact-form', 'contact-success');</script>
+</body>
+</html>
