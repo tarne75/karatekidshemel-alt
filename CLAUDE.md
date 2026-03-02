@@ -68,6 +68,18 @@ See `DISABLED_FEATURES.md` for full detail. Summary:
 
 ---
 
+## Session 2 — Instructor photo fix (March 2026)
+
+**Problem:** On the live GitHub Pages site, the instructor photos for Chris and Marie were cropping their heads off.
+
+**Root cause:** All three instructor photos are landscape (585×390px) shot in the same dojo room. The subject (instructor) stands in the **right half** of the frame; the left half is decorative shelf/background. The CSS had `object-position: top` which anchored the crop to the top-centre of the image — landing on the shelf, not the person.
+
+**Fix:** Changed `object-position: top` → `object-position: right top` in `.instructor-card img` rule in `assets/css/style.css`. This anchors the crop to the top-right of each image, correctly framing all three instructors.
+
+**Convention going forward:** CLAUDE.md should be updated after every change made to this project.
+
+---
+
 ## Outstanding tasks
 
 - [ ] **Download images** — run `bash download-images.sh` from project root, then `git add assets/images/ && git commit`
