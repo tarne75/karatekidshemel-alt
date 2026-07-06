@@ -405,7 +405,32 @@ ul, ol { padding-left: 1.4rem; }
   color: var(--gray);
   font-size: .9rem;
   line-height: 1.6;
+  margin-bottom: 0;   /* spacing now handled by .card-location */
+}
+.card-location {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
   margin-bottom: .8rem;
+}
+.card-location address { flex: 1; }
+.card-map {
+  flex: 0 0 170px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,.1);
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+.card-map iframe {
+  display: block;
+  width: 170px;
+  height: 130px;
+  border: none;
+}
+@media (max-width: 480px) {
+  .card-location { flex-direction: column; }
+  .card-map { flex: none; width: 100%; }
+  .card-map iframe { width: 100%; height: 160px; }
 }
 .time-list { list-style: none; padding: 0; }
 .time-list li {
