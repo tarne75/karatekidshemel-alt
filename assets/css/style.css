@@ -82,7 +82,7 @@ ul, ol { padding-left: 1.4rem; }
   top: 0;
   z-index: 100;
   background: var(--black);
-  height: var(--nav-h);
+  min-height: var(--nav-h);
   display: flex;
   align-items: center;
   box-shadow: 0 2px 16px rgba(0,0,0,.45);
@@ -95,6 +95,7 @@ ul, ol { padding-left: 1.4rem; }
   width: 90%;
   max-width: var(--max);
   margin-inline: auto;
+  padding-block: .6rem;
 }
 .nav-brand {
   display: flex;
