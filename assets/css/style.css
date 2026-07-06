@@ -113,7 +113,9 @@ ul, ol { padding-left: 1.4rem; }
   transition: color var(--transition);
 }
 .header-email:hover { color: var(--white); }
-@media (max-width: 860px) { .header-email { display: none; } }
+@media (max-width: 480px) {
+  .header-email { font-size: .72rem; }
+}
 
 .nav-logo {
   display: flex;
