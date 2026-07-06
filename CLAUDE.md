@@ -121,11 +121,15 @@ https://docs.google.com/spreadsheets/d/e/2PACX-1vRC_oM_iSkcLNCavPm2jHFYnGFGTqUc6
 **Google Sheet columns:**
 | Column | Required | Notes |
 |---|---|---|
-| Date | Yes | Any text, e.g. "5–8 Jan" or "31 Jan" |
+| Date | Yes | DD/MM/YYYY format, e.g. `5/1/2026` or `11/07/2026` |
 | Event | Yes | Event description |
 | Status | No | Set to `hide` to suppress the row |
 
-**Past-event greying:** The JS extracts the last day+month pair from the Date field (e.g. "13 Apr" from "30 Mar – 13 Apr") and compares it to today. Events whose end date has passed get the `.diary-past` class (60% opacity, grey text, no hover highlight). The year is taken from the current calendar year so no code change is needed when the sheet rolls over to a new year.
+Column order in the sheet does not matter — the JS reads the header row and maps by name.
+
+**Date display:** Dates are reformatted from `DD/MM/YYYY` to a readable form, e.g. `5/1/2026` → `5 Jan 2026`.
+
+**Past-event greying:** The JS parses the Date field and compares it to today. Events whose date has passed get the `.diary-past` class (60% opacity, grey text, no hover highlight).
 
 **To update the diary going forward:** Edit the Google Sheet — no code changes needed. The site will reflect changes on next page load.
 
