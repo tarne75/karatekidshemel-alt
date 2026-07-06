@@ -54,17 +54,6 @@
 <section class="section">
   <div class="container">
 
-    <!--
-      TODO — GOOGLE SHEETS INTEGRATION
-      This diary content is currently static HTML.
-      To source it from Google Sheets, publish your sheet as CSV
-      (File → Share → Publish to web → CSV) and replace this table
-      with a JavaScript fetch() call that reads the CSV and renders rows.
-      Example endpoint:
-        https://docs.google.com/spreadsheets/d/SHEET_ID/gviz/tq?tqx=out:csv
-      See diary-from-sheets.md in the repo root for a step-by-step guide.
-    -->
-
     <div class="diary-note">
       <strong>Important:</strong> Please note all these dates on your calendar now so that you don't double book!
       Remember Brown Belts must attend the Brown &amp; Black Belt Classes if they wish to grade.
@@ -72,34 +61,60 @@
     </div>
 
     <div style="overflow-x:auto;">
-      <table class="diary-table">
+      <table class="diary-table" id="diary-table">
         <thead>
-          <tr>
-            <th>Date</th>
-            <th>Event</th>
-          </tr>
+          <tr><th>Date</th><th>Event</th></tr>
         </thead>
-        <tbody>
-          <tr><td class="date-col">5–8 Jan</td><td>Classes re-start after the Christmas break</td></tr>
-          <tr><td class="date-col">31 Jan</td><td>Jujitsu seminar with Shihan Ben Craft <em>(adults and brown belts only)</em></td></tr>
-          <tr><td class="date-col">16–19 Feb</td><td>Classes closed during half-term</td></tr>
-          <tr><td class="date-col">28 Feb</td><td>Brown &amp; Black Belt Class — 10:00–12:00 (Lime Walk School)</td></tr>
-          <tr><td class="date-col">21 Mar</td><td>Grading — Lime Walk School <em>(Adults the following Monday)</em></td></tr>
-          <tr><td class="date-col">30 Mar – 13 Apr</td><td>Easter Break — no classes</td></tr>
-          <tr><td class="date-col">4–7 May</td><td>No classes — Bank Holiday &amp; local elections</td></tr>
-          <tr><td class="date-col">25–28 May</td><td>Classes closed during half-term</td></tr>
-          <tr><td class="date-col">27 Jun</td><td>Brown &amp; Black Belt Class with Picnic — 10:00–13:00 (Honbu Dojo)</td></tr>
-          <tr><td class="date-col">11 Jul</td><td>Grading — Lime Walk School <em>(Adults &amp; Black Belts the following Monday)</em></td></tr>
-          <tr><td class="date-col">16 Jul</td><td>Last session before the summer break</td></tr>
-          <tr><td class="date-col">7–10 Sep</td><td>Classes start again after the summer break</td></tr>
-          <tr><td class="date-col">26–29 Oct</td><td>Classes closed during half-term</td></tr>
-          <tr><td class="date-col">21 Nov</td><td>Brown &amp; Black Belt Class — 10:00–12:00 (Lime Walk School)</td></tr>
-          <tr><td class="date-col">5 Dec</td><td>Grading — Lime Walk School <em>(Adults &amp; Black Belts the following Monday)</em></td></tr>
-          <tr><td class="date-col">10 Dec</td><td>Competition Finals and Prize Giving (Apsley Dojo) — last event of the year</td></tr>
-          <tr><td class="date-col">14–17 Dec</td><td>Classes closed for Christmas break</td></tr>
+        <tbody id="diary-body">
+          <tr><td colspan="2" style="padding:1.5rem; color:var(--gray);">Loading diary…</td></tr>
         </tbody>
       </table>
     </div>
+
+    <script>
+    (async () => {
+      const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRC_oM_iSkcLNCavPm2jHFYnGFGTqUc6Ii-5UuhxEc-APqFYWMufy3OS4trB1PoVTZllInCVc7rIT0j/pub?gid=0&single=true&output=csv';
+
+      // Minimal CSV parser that handles quoted fields (including commas inside quotes)
+      function parseCSVRow(line) {
+        const cells = [];
+        let inQuote = false;
+        let cell = '';
+        for (let i = 0; i < line.length; i++) {
+          const ch = line[i];
+          if (ch === '"') {
+            // Handle escaped quotes ("")
+            if (inQuote && line[i + 1] === '"') { cell += '"'; i++; }
+            else { inQuote = !inQuote; }
+          } else if (ch === ',' && !inQuote) {
+            cells.push(cell);
+            cell = '';
+          } else {
+            cell += ch;
+          }
+        }
+        cells.push(cell);
+        return cells;
+      }
+
+      try {
+        const res  = await fetch(SHEET_CSV_URL);
+        if (!res.ok) throw new Error('Network response was not ok');
+        const text = await res.text();
+        const lines = text.trim().split('\n').slice(1); // skip header row
+        const tbody = document.getElementById('diary-body');
+        tbody.innerHTML = lines
+          .filter(line => line.trim())
+          .map(line => {
+            const [date, event = ''] = parseCSVRow(line);
+            return `<tr><td class="date-col">${date}</td><td>${event}</td></tr>`;
+          }).join('');
+      } catch (e) {
+        document.getElementById('diary-body').innerHTML =
+          '<tr><td colspan="2" style="padding:1.5rem; color:var(--gray);">Unable to load diary. Please check back later.</td></tr>';
+      }
+    })();
+    </script>
 
   </div>
 </section>

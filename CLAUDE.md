@@ -80,11 +80,53 @@ See `DISABLED_FEATURES.md` for full detail. Summary:
 
 ---
 
+## Session 3 — Favicon / icons (March 2026)
+
+**What was done:** Added a full favicon set to all pages so the site has a browser tab icon.
+
+**Files added:**
+| File | Description |
+|---|---|
+| `favicon.ico` | Multi-size ICO (16×16, 32×32) for broad browser compatibility |
+| `favicon.svg` | SVG favicon — red scorpion on black, matches brand colours |
+| `favicon-16x16.png` | 16px PNG fallback |
+| `favicon-32x32.png` | 32px PNG fallback |
+| `apple-touch-icon.png` | 180×180px PNG for iOS home-screen bookmarks |
+
+**Pages updated:** All 9 HTML pages (`index.html`, `benefits.html`, `contact.html`, `diary.html`, `history.html`, `instructors.html`, `news.html`, `register.html`, `training.html`) — `<link>` tags added to each `<head>`.
+
+**SVG design:** Scorpion silhouette in white (`#FFFFFF`) on a deep red (`#C0141C`) square with rounded corners, consistent with the site's martial arts aesthetic.
+
+---
+
+## Session 4 — Diary wired to Google Sheets (July 2026)
+
+**What was done:** Replaced the static diary table in `diary.html` with a live fetch from a published Google Sheet CSV.
+
+**Live CSV URL:**
+```
+https://docs.google.com/spreadsheets/d/e/2PACX-1vRC_oM_iSkcLNCavPm2jHFYnGFGTqUc6Ii-5UuhxEc-APqFYWMufy3OS4trB1PoVTZllInCVc7rIT0j/pub?gid=0&single=true&output=csv
+```
+
+**How it works:**
+- On page load, an async `fetch()` call retrieves the CSV from the published Google Sheet.
+- A lightweight inline CSV parser handles quoted fields (including events that contain commas).
+- The header row is skipped; remaining rows are rendered as `<tr>` elements.
+- If the fetch fails, a graceful fallback message is shown instead.
+- The static rows and the `TODO` comment were removed from `diary.html`.
+- The diary note ("Please note all these dates…") is retained as static HTML above the table.
+
+**To update the diary going forward:** Edit the Google Sheet — no code changes needed. The site will reflect changes on next page load.
+
+**File changed:** `diary.html`
+
+---
+
 ## Outstanding tasks
 
 - [ ] **Download images** — run `bash download-images.sh` from project root, then `git add assets/images/ && git commit`
 - [ ] **Push to GitHub** — `git push origin main`, then enable GitHub Pages in repo settings (Source: `main` branch, root `/`)
-- [ ] **Diary → Google Sheets** — see `diary-from-sheets.md` for integration guide
+- [x] **Diary → Google Sheets** — completed in Session 4
 - [ ] **Domain** — point `karatekidshemel.co.uk` DNS to GitHub Pages (CNAME record to `tarne75.github.io`, add `CNAME` file to repo root containing `karatekidshemel.co.uk`)
 
 ---
