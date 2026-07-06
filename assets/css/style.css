@@ -77,25 +77,6 @@ ul, ol { padding-left: 1.4rem; }
 .mt-0 { margin-top: 0; }
 
 /* ── 4. Navigation ──────────────────────────────────────────── */
-.header-topbar {
-  background: var(--red);
-  padding: .3rem 0;
-}
-.header-topbar .container {
-  display: flex;
-  justify-content: flex-end;
-}
-.header-email {
-  color: rgba(255,255,255,.88);
-  font-family: var(--font-body);
-  font-size: .8rem;
-  font-weight: 500;
-  letter-spacing: .02em;
-  text-decoration: none;
-  transition: color var(--transition);
-}
-.header-email:hover { color: var(--white); }
-
 .site-header {
   position: sticky;
   top: 0;
@@ -115,6 +96,23 @@ ul, ol { padding-left: 1.4rem; }
   max-width: var(--max);
   margin-inline: auto;
 }
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+}
+.header-email {
+  color: rgba(255,255,255,.72);
+  font-family: var(--font-body);
+  font-size: .82rem;
+  font-weight: 500;
+  letter-spacing: .02em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--transition);
+}
+.header-email:hover { color: var(--white); }
+@media (max-width: 860px) { .header-email { display: none; } }
 
 .nav-logo {
   display: flex;
@@ -795,7 +793,7 @@ ul, ol { padding-left: 1.4rem; }
   .nav-links {
     display: none;
     position: absolute;
-    top: 100%;
+    top: var(--nav-h);
     left: 0;
     right: 0;
     background: var(--black);
