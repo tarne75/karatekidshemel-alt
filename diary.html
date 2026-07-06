@@ -75,7 +75,7 @@
     (async () => {
       const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRC_oM_iSkcLNCavPm2jHFYnGFGTqUc6Ii-5UuhxEc-APqFYWMufy3OS4trB1PoVTZllInCVc7rIT0j/pub?gid=0&single=true&output=csv';
 
-      // Minimal CSV parser that handles quoted fields (including commas inside quotes)
+      // Minimal CSV parser — handles quoted fields and escaped quotes ("")
       function parseCSVRow(line) {
         const cells = [];
         let inQuote = false;
@@ -83,32 +83,70 @@
         for (let i = 0; i < line.length; i++) {
           const ch = line[i];
           if (ch === '"') {
-            // Handle escaped quotes ("")
             if (inQuote && line[i + 1] === '"') { cell += '"'; i++; }
             else { inQuote = !inQuote; }
           } else if (ch === ',' && !inQuote) {
-            cells.push(cell);
+            cells.push(cell.trim());
             cell = '';
           } else {
             cell += ch;
           }
         }
-        cells.push(cell);
+        cells.push(cell.trim());
         return cells;
+      }
+
+      // Returns the end date of a date string like "5–8 Jan", "30 Mar – 13 Apr", "31 Jan"
+      // Uses the current year so the comparison stays correct year to year.
+      function parseEndDate(dateStr) {
+        const MONTHS = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
+        const matches = [...dateStr.matchAll(/(\d{1,2})\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)/gi)];
+        if (!matches.length) return null;
+        const last = matches[matches.length - 1];
+        const day   = parseInt(last[1], 10);
+        const month = MONTHS[last[2].toLowerCase()];
+        return new Date(new Date().getFullYear(), month, day);
       }
 
       try {
         const res  = await fetch(SHEET_CSV_URL);
         if (!res.ok) throw new Error('Network response was not ok');
         const text = await res.text();
-        const lines = text.trim().split('\n').slice(1); // skip header row
+        const lines = text.trim().split('\n').filter(l => l.trim());
+
+        // Parse header to find optional Status column
+        const headers   = parseCSVRow(lines[0]);
+        const statusIdx = headers.findIndex(h => h.toLowerCase() === 'status');
+        const dataLines = lines.slice(1);
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
         const tbody = document.getElementById('diary-body');
-        tbody.innerHTML = lines
-          .filter(line => line.trim())
+        tbody.innerHTML = dataLines
           .map(line => {
-            const [date, event = ''] = parseCSVRow(line);
-            return `<tr><td class="date-col">${date}</td><td>${event}</td></tr>`;
-          }).join('');
+            const cells = parseCSVRow(line);
+            const date  = cells[0] || '';
+            const event = cells[1] || '';
+
+            // Hide rows where Status column is "hide"
+            if (statusIdx >= 0 && (cells[statusIdx] || '').toLowerCase() === 'hide') return '';
+
+            // Grey out events whose end date has passed
+            const endDate = parseEndDate(date);
+            const isPast  = endDate && endDate < today;
+
+            return `<tr${isPast ? ' class="diary-past"' : ''}>
+              <td class="date-col">${date}</td>
+              <td>${event}</td>
+            </tr>`;
+          })
+          .join('');
+
+        // If everything ended up hidden, show a friendly message
+        if (!tbody.querySelector('tr')) {
+          tbody.innerHTML = '<tr><td colspan="2" style="padding:1.5rem; color:var(--gray);">No upcoming events.</td></tr>';
+        }
       } catch (e) {
         document.getElementById('diary-body').innerHTML =
           '<tr><td colspan="2" style="padding:1.5rem; color:var(--gray);">Unable to load diary. Please check back later.</td></tr>';

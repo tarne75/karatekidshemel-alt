@@ -111,14 +111,25 @@ https://docs.google.com/spreadsheets/d/e/2PACX-1vRC_oM_iSkcLNCavPm2jHFYnGFGTqUc6
 **How it works:**
 - On page load, an async `fetch()` call retrieves the CSV from the published Google Sheet.
 - A lightweight inline CSV parser handles quoted fields (including events that contain commas).
-- The header row is skipped; remaining rows are rendered as `<tr>` elements.
+- The header row is parsed to locate column positions; remaining rows are rendered as `<tr>` elements.
+- Past events (whose end date is before today) are automatically greyed out via the `.diary-past` CSS class.
+- An optional **Status** column is supported — set any row's Status cell to `hide` to suppress it from the page entirely.
 - If the fetch fails, a graceful fallback message is shown instead.
 - The static rows and the `TODO` comment were removed from `diary.html`.
 - The diary note ("Please note all these dates…") is retained as static HTML above the table.
 
+**Google Sheet columns:**
+| Column | Required | Notes |
+|---|---|---|
+| Date | Yes | Any text, e.g. "5–8 Jan" or "31 Jan" |
+| Event | Yes | Event description |
+| Status | No | Set to `hide` to suppress the row |
+
+**Past-event greying:** The JS extracts the last day+month pair from the Date field (e.g. "13 Apr" from "30 Mar – 13 Apr") and compares it to today. Events whose end date has passed get the `.diary-past` class (60% opacity, grey text, no hover highlight). The year is taken from the current calendar year so no code change is needed when the sheet rolls over to a new year.
+
 **To update the diary going forward:** Edit the Google Sheet — no code changes needed. The site will reflect changes on next page load.
 
-**File changed:** `diary.html`
+**Files changed:** `diary.html`, `assets/css/style.css`
 
 ---
 

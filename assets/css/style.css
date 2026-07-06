@@ -526,6 +526,9 @@ ul, ol { padding-left: 1.4rem; }
   margin-bottom: 2rem;
   font-size: .95rem;
 }
+.diary-table tbody tr.diary-past { color: var(--gray); opacity: .6; }
+.diary-table tbody tr.diary-past .date-col { color: var(--gray); }
+.diary-table tbody tr.diary-past:hover { background: transparent; cursor: default; }
 
 /* ── 14. Benefits icons ─────────────────────────────────────── */
 .benefit-card {
