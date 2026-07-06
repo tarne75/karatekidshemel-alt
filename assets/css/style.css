@@ -98,8 +98,9 @@ ul, ol { padding-left: 1.4rem; }
 }
 .nav-brand {
   display: flex;
-  align-items: center;
-  gap: 1.4rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .2rem;
 }
 .header-email {
   color: rgba(255,255,255,.72);
