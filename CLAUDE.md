@@ -155,6 +155,38 @@ Column order in the sheet does not matter — the JS reads the header row and ma
 
 ---
 
+## Session 6 — News page dynamic trophy results (July 2026)
+
+**What was done:** Replaced the hardcoded news section with a dynamic fetch from a second Google Sheet tab.
+
+**Changes:**
+- Removed the "January 2026 — Jujitsu Seminar" block entirely.
+- Retained the "Please refer to the Diary…" paragraph.
+- Replaced the hardcoded 2025 trophy/competition/merit blocks with a `<script>` that fetches from a published Google Sheet CSV on page load.
+
+**Live CSV URL (second sheet tab, gid=1591863055):**
+```
+https://docs.google.com/spreadsheets/d/e/2PACX-1vRC_oM_iSkcLNCavPm2jHFYnGFGTqUc6Ii-5UuhxEc-APqFYWMufy3OS4trB1PoVTZllInCVc7rIT0j/pub?gid=1591863055&single=true&output=csv
+```
+
+**Google Sheet columns:**
+| Column | Notes |
+|---|---|
+| Award | Award or prize name |
+| Year | Four-digit year, e.g. `2025` |
+| Category | `Trophy Winners`, `Competition Champions`, or `Other` |
+| Details | Winner name(s) and any placings |
+
+**How it works:**
+- Rows are grouped by Year (newest first), then split into three categories using a normalised category match that tolerates the "Competiton Champions" typo already present in the sheet.
+- Placements in parentheses — e.g. `(r/u Alex Azevedo)` — are automatically wrapped in `<small>` tags to match the original styling.
+- The "Other" category renders as a highlighted Merit Certificates block below the competition grid.
+- Adding a new year's data to the sheet automatically creates a new section on next page load — no code changes required.
+
+**File changed:** `news.html`
+
+---
+
 ## Outstanding tasks
 
 - [ ] **Download images** — run `bash download-images.sh` from project root, then `git add assets/images/ && git commit`

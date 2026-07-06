@@ -55,51 +55,124 @@
   <div class="container">
     <div class="news-article">
 
-      <!-- Upcoming seminar -->
       <div style="margin-bottom:3rem;">
-        <p class="news-date">January 2026</p>
-        <h2 style="margin-bottom:.75rem;">Jujitsu Seminar — Shihan Ben Craft</h2>
-        <p>We will be hosting a seminar with <strong>Shihan Ben Craft</strong> on <strong>31st January 2026</strong>. The seminar is open to all adult students and junior Brown and Black Belts. The seminar will be held at Lime Walk School.</p>
         <p>Please refer to the <a href="diary.html">Diary</a> for full details of all 2026 dates.</p>
       </div>
 
-      <!-- Trophy winners -->
-      <div>
-        <p class="news-date">December 2025</p>
-        <h2 style="margin-bottom:.3rem;">🏆 2025 Trophy Winners</h2>
-        <p style="color:var(--gray); margin-bottom:1.5rem;">Congratulations to all of our award winners at the 2025 finals!</p>
-
-        <div class="trophy-grid">
-          <div class="trophy-item"><span class="award">Student of the Year</span><span class="winner">Iris Parking <small>(r/u Alex Azevedo)</small></span></div>
-          <div class="trophy-item"><span class="award">Training with Heart</span><span class="winner">Akash Keshkamat <small>(r/u Isla Ransom)</small></span></div>
-          <div class="trophy-item"><span class="award">Award for Leadership</span><span class="winner">Erin Moriarty <small>(r/u Teodor Holicek)</small></span></div>
-          <div class="trophy-item"><span class="award">Award for Martial Spirit</span><span class="winner">Ansh Singhal <small>(r/u Akash Keshkamat)</small></span></div>
-          <div class="trophy-item"><span class="award">Clubman Award</span><span class="winner">Leo Kirby <small>(r/u Morgan Furnell-Williams)</small></span></div>
-          <div class="trophy-item"><span class="award">Most Promising Beginner</span><span class="winner">Kiara O'Neill <small>(r/u Maya Gavrilas)</small></span></div>
-          <div class="trophy-item"><span class="award">Attendance Award</span><span class="winner">Oscar Green <small>(r/u Aashna Thakrar)</small></span></div>
-          <div class="trophy-item"><span class="award">Most Improved Fighter</span><span class="winner">Iannis Agache <small>(r/u Luca Taylor)</small></span></div>
-          <div class="trophy-item"><span class="award">Award for Smart Appearance</span><span class="winner">Alfie Head <small>(r/u Lennon McKeenan-Yau)</small></span></div>
-          <div class="trophy-item"><span class="award">Perseverance Cup</span><span class="winner">Tadgh Moriarty <small>(r/u John O'Hanlon-Payne)</small></span></div>
-          <div class="trophy-item"><span class="award">Etiquette Cup</span><span class="winner">Max Hamer <small>(r/u Teodor Holicek)</small></span></div>
-          <div class="trophy-item"><span class="award">Overall Competition Trophy</span><span class="winner">Ellen Linden &amp; Aashna Thakrar</span></div>
-        </div>
-
-        <h3 style="margin-top:2rem; margin-bottom:1rem;">Competition Champions</h3>
-        <div class="trophy-grid">
-          <div class="trophy-item"><span class="award">Kumite — Apsley Fighting Spirit</span><span class="winner">Maya Ouslati</span></div>
-          <div class="trophy-item"><span class="award">Kumite Trophy</span><span class="winner">Aashna Thakrar <small>(2nd Maya Thakrar, 3rd Maya Ouslati)</small></span></div>
-          <div class="trophy-item"><span class="award">Senior Kata Champion</span><span class="winner">Ellen Linden <small>(2nd Rupert Moore, 3rd Eva Moore)</small></span></div>
-          <div class="trophy-item"><span class="award">Junior Kata Champion</span><span class="winner">Teodor Holicek <small>(2nd Akash Keshkamat, 3rd Maya Gavrilas)</small></span></div>
-        </div>
-
-        <div style="margin-top:1.5rem; padding:1rem 1.4rem; background:var(--light); border-radius:var(--radius);">
-          <strong>Merit Certificates:</strong> Evie Howie, Anika Singhal, Alexandra Cruceanu, Sydney Footitt, Isla Ransom, Elliott Instrall
-        </div>
+      <!-- Trophy winners — loaded from Google Sheets -->
+      <div id="trophy-section">
+        <p style="color:var(--gray);">Loading results…</p>
       </div>
 
     </div>
   </div>
 </section>
+
+<script>
+(async () => {
+  const TROPHY_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRC_oM_iSkcLNCavPm2jHFYnGFGTqUc6Ii-5UuhxEc-APqFYWMufy3OS4trB1PoVTZllInCVc7rIT0j/pub?gid=1591863055&single=true&output=csv';
+
+  // Minimal CSV parser — handles quoted fields and escaped quotes ("")
+  function parseCSVRow(line) {
+    const cells = [];
+    let inQuote = false, cell = '';
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') {
+        if (inQuote && line[i + 1] === '"') { cell += '"'; i++; }
+        else { inQuote = !inQuote; }
+      } else if (ch === ',' && !inQuote) {
+        cells.push(cell.trim()); cell = '';
+      } else { cell += ch; }
+    }
+    cells.push(cell.trim());
+    return cells;
+  }
+
+  // Wrap (...) placements in <small> for compact display
+  function fmt(str) {
+    return str.replace(/\(([^)]+)\)/g, '<small>($1)</small>');
+  }
+
+  // Normalise category label (handles typos like "Competiton")
+  function normCat(cat) {
+    const c = cat.toLowerCase();
+    if (c.includes('trophy') || c.includes('winner')) return 'Trophy Winners';
+    if (c.includes('compet') || c.includes('champion')) return 'Competition Champions';
+    return 'Other';
+  }
+
+  try {
+    const res  = await fetch(TROPHY_CSV_URL);
+    if (!res.ok) throw new Error('Network response was not ok');
+    const text = await res.text();
+    const lines = text.trim().split(/\r?\n/).filter(l => l.trim());
+
+    // Map headers
+    const headers  = parseCSVRow(lines[0]);
+    const awardIdx = headers.findIndex(h => h.toLowerCase() === 'award');
+    const yearIdx  = headers.findIndex(h => h.toLowerCase() === 'year');
+    const catIdx   = headers.findIndex(h => h.toLowerCase() === 'category');
+    const detIdx   = headers.findIndex(h => h.toLowerCase() === 'details');
+
+    // Build rows
+    const rows = lines.slice(1).map(line => {
+      const c = parseCSVRow(line);
+      return {
+        award:    c[awardIdx]  || '',
+        year:     c[yearIdx]   || '',
+        category: normCat(c[catIdx] || ''),
+        details:  c[detIdx]    || '',
+      };
+    }).filter(r => r.award);
+
+    // Group by year (newest first)
+    const years = [...new Set(rows.map(r => r.year))].sort((a, b) => b - a);
+
+    let html = '';
+    for (const year of years) {
+      const yr      = rows.filter(r => r.year === year);
+      const winners = yr.filter(r => r.category === 'Trophy Winners');
+      const champs  = yr.filter(r => r.category === 'Competition Champions');
+      const others  = yr.filter(r => r.category === 'Other');
+
+      const trophyGrid = items => items.map(r =>
+        `<div class="trophy-item">
+          <span class="award">${r.award}</span>
+          <span class="winner">${fmt(r.details)}</span>
+        </div>`
+      ).join('');
+
+      html += `
+        <div style="margin-bottom:3rem;">
+          <p class="news-date">${year}</p>
+          <h2 style="margin-bottom:.3rem;">🏆 ${year} Trophy Winners</h2>
+          <p style="color:var(--gray); margin-bottom:1.5rem;">Congratulations to all of our award winners at the ${year} finals!</p>
+
+          ${winners.length ? `<div class="trophy-grid">${trophyGrid(winners)}</div>` : ''}
+
+          ${champs.length ? `
+            <h3 style="margin-top:2rem; margin-bottom:1rem;">Competition Champions</h3>
+            <div class="trophy-grid">${trophyGrid(champs)}</div>
+          ` : ''}
+
+          ${others.map(r => `
+            <div style="margin-top:1.5rem; padding:1rem 1.4rem; background:var(--light); border-radius:var(--radius);">
+              <strong>${r.award}:</strong> ${r.details}
+            </div>
+          `).join('')}
+        </div>`;
+    }
+
+    document.getElementById('trophy-section').innerHTML =
+      html || '<p style="color:var(--gray);">No results available.</p>';
+
+  } catch (e) {
+    document.getElementById('trophy-section').innerHTML =
+      '<p style="color:var(--gray);">Unable to load results. Please check back later.</p>';
+  }
+})();
+</script>
 
 <footer class="site-footer">
   <div class="container">
