@@ -115,23 +115,17 @@
       }
 
       try {
-        console.log('[Diary] Fetching CSV…');
         const res  = await fetch(SHEET_CSV_URL);
-        console.log('[Diary] Response status:', res.status, res.ok);
         if (!res.ok) throw new Error('Network response was not ok');
         const text = await res.text();
-        console.log('[Diary] Raw CSV (first 300 chars):', JSON.stringify(text.slice(0, 300)));
         // Use /\r?\n/ so Windows (CRLF) and Unix (LF) line endings both work
         const lines = text.trim().split(/\r?\n/).filter(l => l.trim());
-        console.log('[Diary] Lines found:', lines.length);
 
         // Read column positions from the header row — order doesn't matter
         const headers   = parseCSVRow(lines[0]);
-        console.log('[Diary] Headers:', headers);
         const dateIdx   = headers.findIndex(h => h.toLowerCase() === 'date');
         const eventIdx  = headers.findIndex(h => h.toLowerCase() === 'event');
         const statusIdx = headers.findIndex(h => h.toLowerCase() === 'status');
-        console.log('[Diary] Column indices — date:', dateIdx, 'event:', eventIdx, 'status:', statusIdx);
 
         const today = new Date();
         today.setHours(0, 0, 0, 0);
