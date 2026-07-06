@@ -99,6 +99,24 @@ See `DISABLED_FEATURES.md` for full detail. Summary:
 
 ---
 
+## Session 5 — Instructor photo re-crop (July 2026)
+
+**Problem:** All three instructor photos displayed at different alignments in their cards because each instructor sits at a slightly different position in the original 585×390px landscape frames.
+
+**Previous fix (Session 2):** `object-position: right top` — anchored display to the top-right, which helped but didn't solve the per-photo inconsistency.
+
+**Fix:** Physically cropped each image using Pillow so the instructor is centred (~51–52% from left) in the resulting image. The left-side decorative background was trimmed; right edge kept at the image boundary.
+
+| File | Original | Cropped | Instructor centre |
+|---|---|---|---|
+| `chris.jpg` | 585×390 | 325×390 | 52% from left |
+| `marie.jpg` | 585×390 | 350×390 | 51% from left |
+| `dean.jpg` | 585×390 | 385×390 | 51% from left |
+
+**CSS change:** `object-position: right top` → `object-position: center top` in `.instructor-card img` (`assets/css/style.css`). Now all three display identically because the subject is at the centre of each image.
+
+---
+
 ## Session 4 — Diary wired to Google Sheets (July 2026)
 
 **What was done:** Replaced the static diary table in `diary.html` with a live fetch from a published Google Sheet CSV.
